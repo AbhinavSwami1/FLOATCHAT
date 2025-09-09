@@ -1,6 +1,6 @@
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import FAISS
-from langchain_openai import OpenAIEmbeddings  # ya HuggingFaceEmbeddings
+from langchain.embeddings import OpenAIEmbeddings  # ya HuggingFaceEmbeddings
 
 # Metadata read karo
 with open("../dataset/ar_index_global_meta.txt", "r") as f:

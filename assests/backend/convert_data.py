@@ -5,7 +5,7 @@ import pandas as pd
 file_path = "../dataset/float_sample.nc"
 
 # NetCDF load karo
-ds = xr.open_dataset(file_path)
+ds = xr.open_dataset(file_path, engine="netcdf4")
 
 # Print dataset summary
 print(ds)
