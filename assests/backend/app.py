@@ -1,11 +1,21 @@
+
+
 from fastapi import FastAPI, Query
 from sqlalchemy import create_engine
 import pandas as pd
+import os
+from dotenv import load_dotenv
+
+# -------------------------------
+# Load ENV
+# -------------------------------
+load_dotenv()
+DB_URL = os.getenv("DATABASE_URL")  # Render / Local DB URL
 
 app = FastAPI()
 
 # DB connection
-engine = create_engine("sqlite:///argo.db")  # PostgreSQL in production
+engine = create_engine(DB_URL)
 
 @app.get("/get_float_data")
 def get_float_data(lat: float = Query(None), lon: float = Query(None)):
