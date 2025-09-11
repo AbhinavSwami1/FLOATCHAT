@@ -46,16 +46,14 @@ for url in file_urls:
         response = requests.get(url, timeout=60)
         ds = xr.open_dataset(BytesIO(response.content), engine="scipy")
         
-        # Extract variables manually
-        # Only include variables useful for your backend endpoints
         lat = ds['LATITUDE'].values.flatten() if 'LATITUDE' in ds else np.array([])
         lon = ds['LONGITUDE'].values.flatten() if 'LONGITUDE' in ds else np.array([])
         temp = ds['TEMP'].values.flatten() if 'TEMP' in ds else np.array([])
         psal = ds['PSAL'].values.flatten() if 'PSAL' in ds else np.array([])
+        pres = ds['PRES'].values.flatten() if 'PRES' in ds else np.array([])
         time = ds['JULD'].values.flatten() if 'JULD' in ds else np.array([])
 
-        # Ensure all arrays are same length
-        min_len = min(len(lat), len(lon), len(temp), len(psal), len(time))
+        min_len = min(len(lat), len(lon), len(temp), len(psal), len(pres), len(time))
         if min_len == 0:
             print(f"⚠ Skipping {url}, no valid data found")
             continue
@@ -65,6 +63,7 @@ for url in file_urls:
             'LONGITUDE': lon[:min_len],
             'TEMP': temp[:min_len],
             'PSAL': psal[:min_len],
+            'PRES': pres[:min_len],
             'TIME': time[:min_len]
         })
         dataframes.append(df_part)
